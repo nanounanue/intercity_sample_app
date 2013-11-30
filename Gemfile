@@ -35,11 +35,7 @@ end
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
 
-# Use unicorn as the app server
-gem 'unicorn'
-
 # Use Capistrano for deployment
-gem 'capistrano', '~> 2.15.5', group: :development
 gem 'intercity', group: :development
 
 # Use debugger

@@ -35,8 +35,7 @@ end
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
 
-# Use Capistrano for deployment
-gem 'intercity', group: :development
+gem 'intercity'
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]

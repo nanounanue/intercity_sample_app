@@ -1,16 +1,17 @@
 require 'bundler/capistrano'
 
-set :application, "docker_test"
+set :application, "test_app"
 set :repository, "git@github.com:intercity/intercity_sample_app.git"
 set :user, "deploy"
-set :shell, "/bin/bash --login"
 set :use_sudo, false
 
 default_run_options[:pty] = true
-default_run_options[:shell] = "/bin/bash --login"
+set :default_environment, {
+  "PATH" => "/opt/rbenv/shims:/opt/rbenv/bin:$PATH"
+}
 
-server "95.85.61.92", :web, :app, :db, :primary => true
-set :ssh_options, { :forward_agent => true, :port => 2222 }
+server "localhost", :web, :app, :db, :primary => true
+set :ssh_options, { :forward_agent => true, :port => 2223 }
 
 after "deploy:finalize_update", "symlink:db"
 
@@ -30,4 +31,4 @@ namespace :deploy do
   end
 end
 
-# after "deploy:restart", "deploy:cleanup"
+after "deploy:restart", "deploy:cleanup"

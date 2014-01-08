@@ -1,12 +1,33 @@
 require 'bundler/capistrano'
-require 'intercity/capistrano'
 
-set :application, "intercity_sample_app_production"
-set :repository,  "git@github.com:intercity/intercity_sample_app.git"
+set :application, "docker_test"
+set :repository, "git@github.com:intercity/intercity_sample_app.git"
+set :user, "deploy"
+set :shell, "/bin/bash --login"
+set :use_sudo, false
 
-role :web, "146.185.174.79"                          # Your HTTP server, Apache/etc
-role :app, "146.185.174.79"                          # This may be the same as your `Web` server
-role :db,  "146.185.174.79", :primary => true # This is where Rails migrations will run
+default_run_options[:pty] = true
+default_run_options[:shell] = "/bin/bash --login"
 
-# if you want to clean up old releases on each deploy uncomment this:
-after "deploy:restart", "deploy:cleanup"
+server "95.85.61.92", :web, :app, :db, :primary => true
+set :ssh_options, { :forward_agent => true, :port => 2222 }
+
+after "deploy:finalize_update", "symlink:db"
+
+namespace :symlink do
+  task :db do
+    run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
+  end
+end
+
+namespace :deploy do
+  task :start do
+    run "#{current_path}/bin/unicorn #{current_path}/config.ru -Dc #{shared_path}/config/unicorn.rb -E production"
+  end
+
+  task :restart do
+    run "kill -SIGUSR2 $(cat #{shared_path}/pids/unicorn.pid)"
+  end
+end
+
+# after "deploy:restart", "deploy:cleanup"

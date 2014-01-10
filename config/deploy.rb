@@ -1,9 +1,10 @@
 require 'bundler/capistrano'
 
-set :application, "test_app"
+set :application, "intercity_sample_app"
 set :repository, "git@github.com:intercity/intercity_sample_app.git"
 set :user, "deploy"
 set :use_sudo, false
+set :branch, "clean"
 
 default_run_options[:pty] = true
 set :default_environment, {
@@ -11,7 +12,7 @@ set :default_environment, {
 }
 
 server "localhost", :web, :app, :db, :primary => true
-set :ssh_options, { :forward_agent => true, :port => 2223 }
+set :ssh_options, { :forward_agent => true, :port => 2222 }
 
 after "deploy:finalize_update", "symlink:db"
 
@@ -22,12 +23,9 @@ namespace :symlink do
 end
 
 namespace :deploy do
-  task :start do
-    run "#{current_path}/bin/unicorn #{current_path}/config.ru -Dc #{shared_path}/config/unicorn.rb -E production"
-  end
 
   task :restart do
-    run "kill -SIGUSR2 $(cat #{shared_path}/pids/unicorn.pid)"
+    run "touch #{current_path}/tmp/restart.txt"
   end
 end
 

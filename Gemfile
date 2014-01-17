@@ -35,4 +35,5 @@ end
 gem 'sqlite3', group: :development
 gem 'spring', group: :development
 
-gem 'intercity'
+gem 'unicorn'
+gem 'capistrano', group: :development

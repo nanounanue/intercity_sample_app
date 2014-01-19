@@ -33,18 +33,18 @@ end
 
 namespace :deploy do
 
-  # task :restart do
-  #   run "touch #{current_path}/tmp/restart.txt"
-  # end
-  #
-  #
-  task :start do
-    run "#{current_path}/bin/unicorn -Dc #{shared_path}/config/unicorn.rb -E #{rails_env} #{current_path}/config.ru"
+  task :restart do
+    run "touch #{current_path}/tmp/restart.txt"
   end
 
-  task :restart do
-    run "kill -USR2 $(cat #{shared_path}/pids/unicorn.pid)"
-  end
+
+  # task :start do
+  #   run "#{current_path}/bin/unicorn -Dc #{shared_path}/config/unicorn.rb -E #{rails_env} #{current_path}/config.ru"
+  # end
+
+  # task :restart do
+  #   run "kill -USR2 $(cat #{shared_path}/pids/unicorn.pid)"
+  # end
 end
 
 after "deploy:restart", "deploy:cleanup"

@@ -131,6 +131,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  capistrano (>= 2.15.5)
   coffee-rails (~> 4.0.0)
   intercity
   jbuilder (~> 1.2)

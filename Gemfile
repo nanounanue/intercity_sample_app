@@ -39,3 +39,5 @@ gem 'intercity'
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
+
+gem 'capistrano', '>= 2.15.5'
